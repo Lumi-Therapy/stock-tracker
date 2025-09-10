@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Organization Ship Tracking</title>
+  <style>
+    /* Fullscreen map container */
+    #myshiptrackingwidget {
+      height: 80vh;
+      width: 100%;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>Live Ship Tracking</h1>
+
+  <!-- Container for MyShipTracking map widget -->
+  <div id="myshiptrackingwidget"></div>
+
+  <!-- Load MyShipTracking widget API script -->
+  <script id="myshiptrackingscript" src="//www.myshiptracking.com/js/widgetApi.js" async defer></script>
+
+  <!-- Initialize the widget -->
+  <script>
+    window.addEventListener('load', () => {
+      if (window.MyShipTracking) {
+        // Create the widget with desired settings
+        new MyShipTracking.Widget({
+          containerId: 'myshiptrackingwidget',
+          width: '100%',
+          height: '80vh',
+          zoom: 5,
+          mapType: 'osm', 
+          language: 'en',
+          filters: {
+            // Optional filters
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
