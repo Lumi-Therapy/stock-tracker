@@ -22,46 +22,56 @@
       flex: 0 0 auto;
     }
     #myshiptrackingwidget {
+      flex: 1 1 0;
       width: 100%;
       border: none;
       margin: 0;
       padding: 0;
+      min-height: 0;
     }
   </style>
 </head>
 <body>
   <h1>Live Ship Tracking</h1>
+
   <div id="myshiptrackingwidget"></div>
-  <script id="myshiptrackingscript" src="https://www.myshiptracking.com/js/widgetApi.js" async defer></script>
+
   <script>
-    // Function to set widget height in pixels based on viewport
-    function updateWidgetHeight() {
-      var widgetDiv = document.getElementById('myshiptrackingwidget');
+    var mst_width = "100%";
+    var mst_height = "100%";
+    var mst_border = "0";
+    var mst_map_style = "simple";
+    var mst_mmsi = "";
+    var mst_show_track = "";
+    var mst_show_info = "";
+    var mst_fleet = "317872";  // Your fleet id
+    var mst_lat = "";
+    var mst_lng = "";
+    var mst_zoom = "";
+    var mst_show_names = "1";
+    var mst_scroll_wheel = "0";
+    var mst_show_menu = "0";
+  </script>
+
+  <script id="myshiptrackingscript" src="https://www.myshiptracking.com/js/widgetApi.js" async defer></script>
+
+  <script>
+    // Since your variables include width and height 100%, the widget might not resize well,
+    // so we explicitly set the container height in pixels to fill viewport minus header.
+
+    function resizeWidgetContainer() {
       var headerHeight = document.querySelector('h1').offsetHeight;
-      var newHeight = window.innerHeight - headerHeight;
-      widgetDiv.style.height = newHeight + 'px';
-      return newHeight;
+      var container = document.getElementById('myshiptrackingwidget');
+      container.style.height = (window.innerHeight - headerHeight) + 'px';
     }
 
-    function initMyShipTrackingWidget() {
-      if(window.MyShipTracking && typeof MyShipTracking.Widget === 'function') {
-        // Remove existing widget if any
-        document.getElementById('myshiptrackingwidget').innerHTML = "";
-        var pxHeight = updateWidgetHeight();
-        new MyShipTracking.Widget({
-          containerId: 'myshiptrackingwidget',
-          width: '100%',
-          height: pxHeight, // Pass pixel value for responsive fill
-          zoom: 3,
-          mapType: 'osm',
-          language: 'en'
-        });
-      } else {
-        setTimeout(initMyShipTrackingWidget, 500);
-      }
-    }
-    window.onload = initMyShipTrackingWidget;
-    window.onresize = initMyShipTrackingWidget; // Re-init on resize
+    window.onload = function() {
+      resizeWidgetContainer();
+    };
+
+    window.onresize = function() {
+      resizeWidgetContainer();
+    };
   </script>
 </body>
 </html>
